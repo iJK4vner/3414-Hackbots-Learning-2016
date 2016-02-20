@@ -1,11 +1,11 @@
-package org.usfirst.frc.team3414.robot;
+package org.usfirst.frc.team3414.actuators;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class Piston {
+public class SingleSolenoid {
 Solenoid mySolenoid;
 
-public Piston(int channel)	{
+public SingleSolenoid(int channel)	{
 	mySolenoid = new Solenoid(1);
 }
 	public void shoot()	{

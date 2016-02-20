@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3414.robot;
+package org.usfirst.frc.team3414.actuators;
 
 public interface IEncoder {
 	//public Encoders(int channel)

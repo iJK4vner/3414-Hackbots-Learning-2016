@@ -3,11 +3,11 @@ package org.usfirst.frc.team3414.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class MyJoystick {
-	public Joystick myJoystick;
+	private Joystick myJoystick;
 
-	public MyJoystick() {
+	public MyJoystick(int channel) {
 
-		myJoystick = new Joystick(1);
+		myJoystick = new Joystick(channel);
 	}
 
 	public double getY() {

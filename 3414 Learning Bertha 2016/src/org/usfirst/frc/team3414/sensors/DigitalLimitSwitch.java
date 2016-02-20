@@ -11,8 +11,9 @@ public class DigitalLimitSwitch implements ILimitSwitch
 		limitSwitchOne = new DigitalInput(channel);
 	}
 
+
 	@Override
-	public boolean getValue()
+	public boolean isButtonPressed()
 	{
 		return limitSwitchOne.get();
 	}

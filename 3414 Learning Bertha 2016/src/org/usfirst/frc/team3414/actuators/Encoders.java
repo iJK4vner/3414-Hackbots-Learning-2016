@@ -1,18 +1,30 @@
-package org.usfirst.frc.team3414.robot;
+package org.usfirst.frc.team3414.actuators;
 import edu.wpi.first.wpilibj.Encoder;
 public class Encoders 
 {
 	//How do I use string, PIDSourceType, ITable
 	
 	private Encoders EncodeOne;
+	
+	/**
+	 * Creates Encoders
+	 * @param channel
+	 */
 	public Encoders(int channel)
 	{
 		EncodeOne = new Encoders(channel);
 	}
+	/**
+	 * Frees Encoder
+	 */
 	public void free()
 	{
 		 EncodeOne.free();
 	}
+	/**
+	 * Gets something
+	 * @return
+	 */
 	public int get()
 	{
 		return EncodeOne.get();
@@ -77,6 +89,10 @@ public class Encoders
 	{
 		//return EncodeOne.reset();
 	}
+	/**
+	 * sets adsjklfajsdklf
+	 * @param distancePerPulse
+	 */
 	public void setDistancePerPulse(double distancePerPulse)
 	{
 		//return EncodeOne.setDistancePerPulse();
