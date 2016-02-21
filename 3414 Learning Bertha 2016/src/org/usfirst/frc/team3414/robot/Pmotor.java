@@ -2,20 +2,20 @@ package org.usfirst.frc.team3414.robot;
 import edu.wpi.first.wpilibj.Servo;
 public class Pmotor {
     
-	private Servo TemServo;
+	private Servo myServo;
 	
 	 public Pmotor(int channel) {
-	 TemServo = new Servo(channel);
+	 myServo = new Servo(channel);
 	 }
 	 
 	 //sets the angle of the Servo
 	public void setTemServoAngle(double temdegrees){
-		 TemServo.setAngle(temdegrees);
+		 myServo.setAngle(temdegrees);
 	 }
+	
 	//gets the physical position of the servo
 	 public double tempos(){
-		 return TemServo.get();
-		 
+		 return myServo.get();
 		 
 		 
 		 
@@ -24,12 +24,12 @@ public class Pmotor {
 	 
 	
 		public void setTemPos(double temservopos){
-		TemServo.set(temservopos);
+		myServo.set(temservopos);
 		}
 		
 		
 		
 		public double temangle(){
-			return TemServo.getAngle();
+			return myServo.getAngle();
 		}
 }

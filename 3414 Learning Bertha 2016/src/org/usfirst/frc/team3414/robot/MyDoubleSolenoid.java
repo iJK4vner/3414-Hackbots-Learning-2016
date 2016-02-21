@@ -2,11 +2,11 @@ package org.usfirst.frc.team3414.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class DoublePiston {
+public class MyDoubleSolenoid {
 	private DoubleSolenoid dSol;
 	private boolean myValue;
 
-	public DoublePiston(int channelA, int channelB) {
+	public MyDoubleSolenoid(int channelA, int channelB) {
 		dSol = new DoubleSolenoid(channelA, channelB);
 	}
 
