@@ -6,9 +6,9 @@ public class ScrewPot
 	private static final int MIN = 4;
 	private static final int MAX = 3980;
 
-	public ScrewPot(int channel)
+	public ScrewPot(Potentiometer _potentiometerOne)
 	{
-		potentiometerOne = new Potentiometer(channel);
+		potentiometerOne = _potentiometerOne;
 	}
 
 	public double getCount()

@@ -8,9 +8,9 @@ public class ScrewMotor
 	private static final double SPEED = 0.5;
 	private static final double STOP = 0;
 
-	public ScrewMotor(int channel)
+	public ScrewMotor(CANMotor _screw)
 	{
-		screw = new CANMotor(channel);
+		screw = _screw;
 	}
 
 	public void up()

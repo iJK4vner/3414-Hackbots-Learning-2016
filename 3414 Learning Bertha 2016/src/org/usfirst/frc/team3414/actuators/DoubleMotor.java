@@ -5,20 +5,20 @@ import edu.wpi.first.wpilibj.CANTalon;
 public class DoubleMotor
 {
 
-	private CANTalon MotorOne;
-	private CANTalon MotorTwo;
+	private CANMotor motorOne;
+	private CANMotor motorTwo;
 
-	public DoubleMotor(int one, int two)
+	public DoubleMotor(CANMotor _motorOne, CANMotor _motorTwo)
 	{
-		MotorOne = new CANTalon(one);
-		MotorTwo = new CANTalon(two);
+		motorOne = _motorOne;
+		motorTwo = _motorTwo;
 
 	}
 
 	public void setSpeed(double speed)
 	{
-		MotorTwo.set(speed);
-		MotorOne.set(speed);
+		motorTwo.set(speed);
+		motorOne.set(speed);
 	}
 
 }

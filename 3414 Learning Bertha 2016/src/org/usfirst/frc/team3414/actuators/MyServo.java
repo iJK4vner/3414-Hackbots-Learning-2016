@@ -7,9 +7,9 @@ public class MyServo
 
 	private Servo myServo;
 
-	public MyServo(int channel)
+	public MyServo(Servo _myServo)
 	{
-		myServo = new Servo(channel);
+		myServo = _myServo;
 	}
 
 	public void setAngle(double temdegrees)

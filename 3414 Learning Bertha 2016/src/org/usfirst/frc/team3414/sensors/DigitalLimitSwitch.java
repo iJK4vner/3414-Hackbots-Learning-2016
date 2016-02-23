@@ -6,9 +6,9 @@ public class DigitalLimitSwitch implements ILimitSwitch
 {
 	private DigitalInput limitSwitchOne;
 
-	public DigitalLimitSwitch(int channel)
+	public DigitalLimitSwitch(DigitalInput _limitSwitchOne)
 	{
-		limitSwitchOne = new DigitalInput(channel);
+		limitSwitchOne = _limitSwitchOne;
 	}
 
 

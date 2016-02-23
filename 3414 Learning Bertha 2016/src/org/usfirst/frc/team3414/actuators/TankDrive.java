@@ -2,16 +2,16 @@ package org.usfirst.frc.team3414.actuators;
 
 public class TankDrive {
 
-	DoubleMotor leftDoubleMotor;
-	DoubleMotor rightDoubleMotor;
-	private final static int STOP = 0;
-	
-	
-	public TankDrive(int FR, int FL, int BL, int BR) {
-		leftDoubleMotor = new DoubleMotor(FR, BR);
-		rightDoubleMotor = new DoubleMotor(FL, BL);
+	private DoubleMotor leftDoubleMotor;
+	private DoubleMotor rightDoubleMotor;
+	private final static double STOP = 0.0;
 
+	public TankDrive(DoubleMotor rightSide, DoubleMotor leftSide) {
+		leftDoubleMotor = rightSide;
+		rightDoubleMotor = leftSide;
 	}
+	
+	
 	public void forward(double speed)
 	{
 		leftDoubleMotor.setSpeed(Math.abs(speed));

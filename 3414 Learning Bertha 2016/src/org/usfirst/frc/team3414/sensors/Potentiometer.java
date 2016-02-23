@@ -7,9 +7,9 @@ public class Potentiometer
 
 	 private AnalogInput pot;
 
-	public Potentiometer(int channelA)
+	public Potentiometer(AnalogInput _pot)
 	{
-		pot = new AnalogInput(channelA);
+		pot = _pot;
 
 	}
 

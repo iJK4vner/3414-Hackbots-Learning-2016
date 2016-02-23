@@ -2,16 +2,22 @@ package org.usfirst.frc.team3414.actuators;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class SingleSolenoid {
-Solenoid mySolenoid;
+public class SingleSolenoid
+{
+	private Solenoid mySolenoid;
 
-public SingleSolenoid(int channel)	{
-	mySolenoid = new Solenoid(1);
-}
-	public void shoot()	{
+	public SingleSolenoid(Solenoid _mySolenoid)
+	{
+		mySolenoid = _mySolenoid;
+	}
+
+	public void shoot()
+	{
 		mySolenoid.set(true);
 	}
-	public void retract()	{
+
+	public void retract()
+	{
 		mySolenoid.set(false);
 	}
 }

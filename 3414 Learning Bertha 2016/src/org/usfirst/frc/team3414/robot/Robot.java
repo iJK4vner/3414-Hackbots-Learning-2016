@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.AnalogInput;
 import org.usfirst.frc.team3414.actuators.*;
 import org.usfirst.frc.team3414.sensors.*;
 
@@ -26,7 +27,9 @@ public class Robot extends IterativeRobot
 	private TankDrive tankDrive = new TankDrive(FR_DRIVETRAIN_CHANNEL, FL_DRIVETRAIN_CHANNEL, BL_DRIVETRAIN_CHANNEL,
 			BR_DRIVETRAIN_CHANNEL);
 	private MyJoystick myJoystick = new MyJoystick(JOY_CHANNEL);
-	private Potentiometer pot = new Potentiometer(POT_CHANNEL);
+	
+	private AnalogInput _pot = new AnalaogInput(POT_CHANNEL);
+	private Potentiometer pot = new Potentiometer(_pot);
 	private DigitalLimitSwitch limitSwitchOne = new DigitalLimitSwitch(BOT_LIM_SWITCH_CHANNEL);
 	DigitalLimitSwitch limitSwitchTwo = new DigitalLimitSwitch(TOP_LIM_SWITCH_CHANNEL);
 	private ScrewMotor screwMotor = new ScrewMotor(5);

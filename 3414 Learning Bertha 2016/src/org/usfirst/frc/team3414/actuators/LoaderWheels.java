@@ -2,20 +2,24 @@ package org.usfirst.frc.team3414.actuators;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
-public class LoaderWheels {
-	CANTalon loaderMotor;
+public class LoaderWheels 
+{
+	private CANMotor loaderMotor;
 	private double SPEED = -0.5;
 	private double ZERO = 0.0;
 
-	public LoaderWheels(int channel) {
-		loaderMotor = new CANTalon(channel);
+	public LoaderWheels(CANMotor _loaderMotor)
+	{
+		loaderMotor = _loaderMotor;
 	}
 
-	public void Start() {
+	public void start()
+	{
 		loaderMotor.set(SPEED);
 	}
 
-	public void Stop() {
+	public void stop() 
+	{
 		loaderMotor.set(ZERO);
 	}
 }

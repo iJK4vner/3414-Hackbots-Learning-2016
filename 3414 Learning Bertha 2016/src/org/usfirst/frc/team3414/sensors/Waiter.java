@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 public class Waiter
 
 {
-	RobotBase rr ;
+	private RobotBase rr ;
 	public Waiter (RobotBase robot)
 	{
 		rr = robot;
