@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot
 	private TankDrive tankDrive = new TankDrive(FR_DRIVETRAIN_CHANNEL, FL_DRIVETRAIN_CHANNEL, BL_DRIVETRAIN_CHANNEL,
 			BR_DRIVETRAIN_CHANNEL);
 	private MyJoystick myJoystick = new MyJoystick(JOY_CHANNEL);
-	
+
 	private AnalogInput _pot = new AnalaogInput(POT_CHANNEL);
 	private Potentiometer pot = new Potentiometer(_pot);
 	private DigitalLimitSwitch limitSwitchOne = new DigitalLimitSwitch(BOT_LIM_SWITCH_CHANNEL);
@@ -39,6 +39,10 @@ public class Robot extends IterativeRobot
 	private static final double TURN = 0.19;
 	private static final int BUTTON_ONE = 1;
 	private static final int BUTTON_TWO = 2;
+	private static final int BUTTON_THREE = 3;
+	private static final int BUTTON_FOUR = 4;
+	private static final int BUTTON_FIVE = 5;
+	private static final int BUTTON_SIX = 6;
 
 	public void robotInit()
 	{
@@ -56,13 +60,13 @@ public class Robot extends IterativeRobot
 
 	public void teleopInit()
 	{
-		
+
 	}
 
 	public void teleopPeriodic()
 	{
-
-		if (myJoystick.isButtonPressed(BUTTON_ONE) && !myJoystick.isButtonPressed(BUTTON_TWO))
+//This is screw
+		if (myGamepad._myButtonOne(BUTTON_ONE) && !myJoystick.isButtonPressed(BUTTON_TWO))
 		{
 			System.out.println("working");
 			System.out.println(pot.getValue());
@@ -88,6 +92,8 @@ public class Robot extends IterativeRobot
 		{
 			screwMotor.stop();
 		}
+		//this is shooter
+		if ()
 	}
 
 	public void testPeriodic()

@@ -2,14 +2,16 @@ package org.usfirst.frc.team3414.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+
 public class MyJoystick
 {
 	private Joystick myJoystick;
 
+
 	public MyJoystick(Joystick _myJoystick)
 	{
 
-		myJoystick = _myJoystick);
+		myJoystick = _myJoystick;
 	}
 
 	public double getY()
@@ -17,7 +19,7 @@ public class MyJoystick
 		return myJoystick.getRawAxis(1);
 	}
 
-	public double getx()
+	public double getX()
 	{
 		return myJoystick.getRawAxis(0);
 	}
@@ -31,4 +33,7 @@ public class MyJoystick
 	{
 		return myJoystick.getRawButton(button);
 	}
+	
 }
+
+	

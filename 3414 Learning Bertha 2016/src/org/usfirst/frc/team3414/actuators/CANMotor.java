@@ -8,7 +8,7 @@ public class CANMotor
 
 	public CANMotor(CANTalon _motor)
 	{
-		motor = _motor);
+		motor = _motor;
 	}
 	public void setSpeed (double speed)
 	{
