@@ -4,13 +4,11 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public class Potentiometer
 {
-
-	 private AnalogInput pot;
+	private AnalogInput pot;
 
 	public Potentiometer(AnalogInput _pot)
 	{
 		pot = _pot;
-
 	}
 
 	public double getValue()

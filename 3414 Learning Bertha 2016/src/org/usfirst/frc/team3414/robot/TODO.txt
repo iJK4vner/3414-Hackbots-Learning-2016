@@ -1,0 +1,166 @@
+3/2/16 Bertha Rewrite
+
+>> IN THESE CLASSES.java
+
+>> DO THIS <<
+
+(Open up the classes and then make the changes)
+(Look at this document for line numbers before you make any other changes)
+-----------------------------------------
+Robot.java, LoaderWheels.java, ScrewMotor.java, DoubleMotor.java, ShooterWheels.java
+
+Replace all instances of "CANTalon" to "Talon"
+Replace all instances of "CANMotor" to "SingleMotor"
+-----------------------------------------
+DoublePiston.java
+
+Delete line 8: "private boolean myValue;"
+-----------------------------------------
+Encoders.java
+
+Change variable "EncodeOne" to "encodeOne"
+Change "Encoders".java to "QuadEncoder".java
+Adjust objects to encapsulate "Encoder" (line 7, 14)
+Delete free() method
+Delete getEncodingScale() method
+Delete getFPGAIndex() method
+Delete getPeriod() method
+Delete commented getPIDSourceType() method
+Delete getSamplesToAverage() method
+Delete getSmartDashboardType() method
+Delete commented getITable() method
+Delete commented initTable(ITable subtable) method
+Delete pidGet() method
+Uncomment reset() method
+Change /** comment above setDistancePerPulse(double distancePerPulse) method
+Change setDistancePerPulse(double distancePerPulse) method to:
+	encodeOne.setDistancePerPulse(distancePerPulse);
+-----------------------------------------
+IEncoder.java
+
+Get rid of comments
+-----------------------------------------
+Create interface IMotor.java <<COPY AND PASTE>>:
+
+public interface IMotor
+{
+	public void setSpeed();
+	
+	public void stop();
+}
+-----------------------------------------
+SingleMotor.java (line 5), CANMotor.java (line 5), DoubleMotor.java (line 3), TankDrive.java (line 3)
+
+Change to:
+	public class SingleMotor implements IMotor {
+-----------------------------------------	
+MyJoystick.java
+
+Add Fields:
+	public static final int HORIZONTAL_AXIS = 0;
+	... VERTICAL_AXIS
+	... TWIST_AXIS
+	public static final double DEADZONE = 0.15;
+	
+<<COPY AND PASTE>> into getX(), getY(), getZ() methods:
+	if (Math.abs(joy.getRawAxis(HORIZONTAL_AXIS)) < DEADZONE)
+		{
+			return 0.0;
+		} else
+		{
+			return joy.getRawAxis(HORIZONTAL_AXIS);
+		}
+-----------------------------------------
+DigitalLimitSwitch.java
+
+Change "return limitSwitchOne.get();" to "return !limitSwitchOne.get();"
+Refactor "isButtonPressed()" to "isHit()"
+-----------------------------------------
+Waiter.java
+
+Change "aa" to "robot"
+Change wait(int waitTime) method <<COPY AND PASTE>>:
+	wait(long milliseconds)
+		{
+			Timer.delay(milliseconds);
+		}
+-----------------------------------------
+Copy "DoublePiston.java" as "PyramidLifter.java" in actuators package
+-----------------------------------------
+PyramidLifter.java
+
+Change all instances of "DoubleSolenoid" to "DoublePiston"
+Delete unused import
+
+Delete setValue(boolean value) and getValue() methods
+Add methods <<COPY AND PASTE>>:
+	public void engage()
+	{
+		dSol.setValue(true);
+	}
+	public void disengage()
+	{
+		dSol.setValue(false);
+	}
+-----------------------------------------
+<<WITH JOSH>> Talk to Philip and ask is Shooter 2 singleSolenoids or a doubleSolenoid
+-----------------------------------------
+Robot.java
+
+FIELDS:
+	<<WITH JOSH>> Talk to Philip and get Field Values
+	Add: private static final int COMPRESSOR_CHANNEL = 0;
+	Add: private double driveScale = 1.0;
+	
+OBJECT INSTANTIATIONS:
+	Add: private Compressor compress = new Compressor(COMPRESSOR_CHANNEL);  
+	Line 90 Add: private PyramidLifter lifter = new PyramidLifter(dSol);
+	
+	CHANGE ALL FORMAT TO:
+	
+	private MyJoystick gamepad;
+	
+	public void robotInit()
+	{
+		gamepad = new MyJoystick(new Joystick(GAMEPAD_JOY_CHANNEL);
+	}
+	
+robotInit()
+{
+	Add: compress.setClosedLoopControl(true); //To turn on
+}
+	
+teleopPeriodic()
+{	
+	SCREW:
+		Line 138: Change to "!topLimitSwitch.isButtonPressed()"
+		Line 149: Change to "!bottomLimitSwitch.isButtonPressed()"
+		Make a method that sets the Screw to a certain (Potentiometer) position to load 
+			frisbees (make this a constant) based on button click
+			
+	SHOOTER:
+		Line 189 Add:
+			else{
+				shooterWheels.stop
+			}
+			
+	DRIVETRAIN:
+		Change to: (rightJoystick.getY() * driveScale)
+		Add <<COPY AND PASTE>:
+			if (leftJoystick.isButtonPressed(BUTTON_ONE))
+			{
+				driveScale = 0.5;
+			} else
+			{
+				driveScale = 1.0;
+			}
+}
+
+Delete method testPeriodic()
+ 
+Create method <<COPY AND PASTE>>: 
+ 	public void disabledInit()
+ 	{
+ 		compress.setClosedLoopControl(false); // To turn off
+ 	}
+-----------------------------------------

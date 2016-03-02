@@ -16,7 +16,6 @@ package org.usfirst.frc.team3414.actuators;
 		screw = _screw; 
 	} 
  
- 
  	public void up() 
 	{ 
 		screw.setSpeed(SPEED); 

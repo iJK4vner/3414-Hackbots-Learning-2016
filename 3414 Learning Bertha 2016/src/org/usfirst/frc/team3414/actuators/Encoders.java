@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class Encoders
 {
-	// How do I use string, PIDSourceType, ITable
-
 	private Encoders EncodeOne;
 
 	/**
@@ -97,9 +95,9 @@ public class Encoders
 	}
 
 	// public void initTable(ITable subtable)
-	{
+//	{
 		// return EncodeOne.initTable();
-	}
+//	}
 
 	public double pidGet()
 	{
@@ -120,5 +118,4 @@ public class Encoders
 	{
 		// return EncodeOne.setDistancePerPulse();
 	}
-	// public void
 }

@@ -11,7 +11,6 @@ public class DigitalLimitSwitch implements ILimitSwitch
 		limitSwitchOne = _limitSwitchOne;
 	}
 
-
 	@Override
 	public boolean isButtonPressed()
 	{

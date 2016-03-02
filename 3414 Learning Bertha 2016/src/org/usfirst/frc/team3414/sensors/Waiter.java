@@ -1,15 +1,17 @@
 package org.usfirst.frc.team3414.sensors;
+
 import edu.wpi.first.wpilibj.RobotBase;
 
 public class Waiter
 
 {
-	private RobotBase rr ;
-	public Waiter (RobotBase robot)
+	private RobotBase rr;
+
+	public Waiter(RobotBase _robot)
 	{
-		rr = robot;
+		rr = _robot;
 	}
-	
+
 	public void wait(int waitTime)
 	{
 		long finishTime = System.currentTimeMillis() + waitTime;
