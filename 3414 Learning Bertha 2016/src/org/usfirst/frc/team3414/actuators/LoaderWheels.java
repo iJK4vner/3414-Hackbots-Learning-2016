@@ -15,11 +15,11 @@ public class LoaderWheels
 
 	public void start()
 	{
-		loaderMotor.set(SPEED);
+		loaderMotor.setSpeed(SPEED);
 	}
 
 	public void stop() 
 	{
-		loaderMotor.set(ZERO);
+		loaderMotor.setSpeed(ZERO);
 	}
 }

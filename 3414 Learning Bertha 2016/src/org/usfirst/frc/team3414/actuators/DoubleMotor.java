@@ -17,8 +17,8 @@ public class DoubleMotor
 
 	public void setSpeed(double speed)
 	{
-		motorTwo.set(speed);
-		motorOne.set(speed);
+		motorTwo.setSpeed(speed);
+		motorOne.setSpeed(speed);
 	}
 
 }

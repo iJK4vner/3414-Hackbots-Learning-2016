@@ -16,12 +16,12 @@ public class ShooterWheels
 		}
 		public void start () 
 		{
-			shooterMotorA.set(SPEED);	
-			shooterMotorB.set(SPEED);
+			shooterMotorA.setSpeed(SPEED);	
+			shooterMotorB.setSpeed(SPEED);
 		}
 		public void stop () 
 		{
-			shooterMotorA.set(ZERO);
-			shooterMotorB.set(ZERO);
+			shooterMotorA.setSpeed(ZERO);
+			shooterMotorB.setSpeed(ZERO);
 		}
 }

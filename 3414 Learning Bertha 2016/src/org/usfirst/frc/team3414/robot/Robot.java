@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.AnalogInput;
 import org.usfirst.frc.team3414.actuators.*;
@@ -30,7 +31,8 @@ public class Robot extends IterativeRobot
 
 	private static final int L_JOY_CHANNEL = 0;
 	private static final int R_JOY_CHANNEL = 1;
-
+	private static final int GAMEPAD_JOY_CHANNEL = 1;
+	
 	private static final int DSOL_A_CHANNEL = 1;
 	private static final int DSOL_B_CHANNEL = 2;
 
@@ -66,19 +68,18 @@ public class Robot extends IterativeRobot
 	private DigitalLimitSwitch bottomLimitSwitch = new DigitalLimitSwitch(_bottomLimitSwitch);
 	private DigitalLimitSwitch topLimitSwitch = new DigitalLimitSwitch(_topLimitSwitch);
 
-	private AnalogInput _pot = new AnalaogInput(POT_CHANNEL);
+	private AnalogInput _pot = new AnalogInput(POT_CHANNEL);
 	private Potentiometer pot = new Potentiometer(_pot);
 	private ScrewPot screwPot = new ScrewPot(pot);
+	
+	private MyJoystick gamepad;
+	private MyJoystick leftJoystick;
+	private MyJoystick rightJoystick;
 
-	private Joystick _leftJoystick = new Joystick(L_JOY_CHANNEL);
-	private Joystick _rightJoystick = new Joystick(R_JOY_CHANNEL);
-	private MyJoystick leftJoystick = new MyJoystick(_leftJoystick);
-	private MyJoystick rightJoystick = new MyJoystick(_rightJoystick);
-
-	private DoubleSolenoid _dSolA = new DoubleSolenoid(DSOL_A_CHANNEL);
-	private DoubleSolenoid _dSolB = new DoubleSolenoid(DSOL_B_CHANNEL);
+	private DoubleSolenoid _dSolA = new DoubleSolenoid(DSOL_A_CHANNEL, DSOL_B_CHANNEL);
+	
 	private DoublePiston dSolA = new DoublePiston(_dSolA);
-	private DoublePiston dSolB = new DoublePiston(_dSolB);
+	
 
 	private Solenoid _sol = new Solenoid(SINGLE_SOLENOID_CHANNEL);
 	private SingleSolenoid sol = new SingleSolenoid(_sol);
@@ -101,10 +102,13 @@ public class Robot extends IterativeRobot
 	private static final int MIN = 490;
 	private static final double SPEED = 0.2;
 	private static final double TURN = 0.19;
+	
 
 	public void robotInit()
-	{
-
+	{	
+		gamepad = new MyJoystick(new Joystick(GAMEPAD_JOY_CHANNEL));
+		leftJoystick = new MyJoystick(new Joystick(L_JOY_CHANNEL));
+		rightJoystick = new MyJoystick(new Joystick(R_JOY_CHANNEL));
 	}
 
 	public void autonomousInit()
@@ -123,12 +127,13 @@ public class Robot extends IterativeRobot
 
 	public void teleopPeriodic()
 	{
+		
 		// This is screw
-		if (myGamepad._myButtonOne(BUTTON_ONE) && !myJoystick.isButtonPressed(BUTTON_TWO))
+		if (gamepad.isButtonPressed(BUTTON_ONE) && !gamepad.isButtonPressed(BUTTON_TWO))
 		{
 			System.out.println("working");
 			System.out.println(pot.getValue());
-			if (pot.getValue() < MAX && limitSwitchOne.isButtonPressed())
+			if (pot.getValue() < MAX && topLimitSwitch.isButtonPressed())
 			{
 				System.out.println("going up");
 				screwMotor.up();
@@ -136,9 +141,9 @@ public class Robot extends IterativeRobot
 			{
 				screwMotor.stop();
 			}
-		} else if (myJoystick.isButtonPressed(BUTTON_TWO) && !myJoystick.isButtonPressed(BUTTON_ONE))
+		} else if (gamepad.isButtonPressed(BUTTON_TWO) && !gamepad.isButtonPressed(BUTTON_ONE))
 		{
-			if (pot.getValue() > MIN && limitSwitchTwo.isButtonPressed())
+			if (pot.getValue() > MIN && bottomLimitSwitch.isButtonPressed())
 			{
 				System.out.println("going down");
 				screwMotor.down();
