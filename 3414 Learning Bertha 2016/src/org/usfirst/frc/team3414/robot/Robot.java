@@ -3,9 +3,7 @@ package org.usfirst.frc.team3414.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.AnalogInput;
 import org.usfirst.frc.team3414.actuators.*;
@@ -25,11 +23,11 @@ public class Robot extends IterativeRobot
 
 	private static final int BOT_LIM_SWITCH_CHANNEL = 1;
 	private static final int TOP_LIM_SWITCH_CHANNEL = 2;
+	private static final int LOADER_LIM_SWITCH_CHANNEL = 3;
 
 	private static final int POT_CHANNEL = 1;
 
-	private static final int L_JOY_CHANNEL = 0;
-	private static final int R_JOY_CHANNEL = 1;
+	private static final int JOY_CHANNEL = 1;
 
 	private static final int DSOL_A_CHANNEL = 1;
 	private static final int DSOL_B_CHANNEL = 2;
@@ -63,17 +61,17 @@ public class Robot extends IterativeRobot
 
 	private DigitalInput _bottomLimitSwitch = new DigitalInput(BOT_LIM_SWITCH_CHANNEL);
 	private DigitalInput _topLimitSwitch = new DigitalInput(TOP_LIM_SWITCH_CHANNEL);
+	private DigitalInput _loaderLimitSwitch = new DigitalInput(LOADER_LIM_SWITCH_CHANNEL);
 	private DigitalLimitSwitch bottomLimitSwitch = new DigitalLimitSwitch(_bottomLimitSwitch);
 	private DigitalLimitSwitch topLimitSwitch = new DigitalLimitSwitch(_topLimitSwitch);
+	private DigitalLimitSwitch loaderLimitSwitch = new DigitalLimitSwitch(_loaderLimitSwitch);
 
 	private AnalogInput _pot = new AnalaogInput(POT_CHANNEL);
 	private Potentiometer pot = new Potentiometer(_pot);
 	private ScrewPot screwPot = new ScrewPot(pot);
 
-	private Joystick _leftJoystick = new Joystick(L_JOY_CHANNEL);
-	private Joystick _rightJoystick = new Joystick(R_JOY_CHANNEL);
-	private MyJoystick leftJoystick = new MyJoystick(_leftJoystick);
-	private MyJoystick rightJoystick = new MyJoystick(_rightJoystick);
+	private Joystick _myJoystick = new Joystick(JOY_CHANNEL);
+	private MyJoystick myJoystick = new MyJoystick(_myJoystick);
 
 	private DoubleSolenoid _dSolA = new DoubleSolenoid(DSOL_A_CHANNEL);
 	private DoubleSolenoid _dSolB = new DoubleSolenoid(DSOL_B_CHANNEL);
@@ -102,6 +100,10 @@ public class Robot extends IterativeRobot
 	private static final double SPEED = 0.2;
 	private static final double TURN = 0.19;
 
+	private boolean loaderWheelStart;
+	private boolean isLoaderFull;
+	private boolean isBayFull;
+
 	public void robotInit()
 	{
 
@@ -124,11 +126,11 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		// This is screw
-		if (myGamepad._myButtonOne(BUTTON_ONE) && !myJoystick.isButtonPressed(BUTTON_TWO))
+		if (myJoystick.isButtonPressed(BUTTON_ONE) && !myJoystick.isButtonPressed(BUTTON_TWO))
 		{
 			System.out.println("working");
 			System.out.println(pot.getValue());
-			if (pot.getValue() < MAX && limitSwitchOne.isButtonPressed())
+			if (pot.getValue() < MAX && topLimitSwitch.isButtonPressed())
 			{
 				System.out.println("going up");
 				screwMotor.up();
@@ -138,7 +140,7 @@ public class Robot extends IterativeRobot
 			}
 		} else if (myJoystick.isButtonPressed(BUTTON_TWO) && !myJoystick.isButtonPressed(BUTTON_ONE))
 		{
-			if (pot.getValue() > MIN && limitSwitchTwo.isButtonPressed())
+			if (pot.getValue() > MIN && bottomLimitSwitch.isButtonPressed())
 			{
 				System.out.println("going down");
 				screwMotor.down();
@@ -150,16 +152,40 @@ public class Robot extends IterativeRobot
 		{
 			screwMotor.stop();
 		}
-		// this is shooter
+		// This is shooter
 
-		// This is TANK DRIVE!!!
-		if (rightJoystick.isButtonPressed(1) == true)
+		if (myJoystick.isButtonPressed(BUTTON_THREE) && loaderLimitSwitch.isButtonPressed() && !isBayFull
+				&& isLoaderFull)
 		{
-			tankDrive.setSpeed(rightJoystick.getY());
-
+			loaderWheels.start();
 		} else
 		{
-			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+			loaderWheels.stop();
+		}
+
+		if (!loaderLimitSwitch.isButtonPressed() && !isBayFull && isLoaderFull)
+		{
+			isLoaderFull = false;
+			isBayFull = true;
+			loaderWheels.stop();
+		}
+
+		if (!isLoaderFull && loaderLimitSwitch.isButtonPressed())
+		{
+			loaderWheels.stop();
+			isLoaderFull = true;
+		}
+
+		if (isBayFull && myJoystick.isButtonPressed(BUTTON_FOUR))
+		{
+			shooterWheels.start();
+		}
+
+		if (isBayFull && myJoystick.isButtonPressed(BUTTON_FIVE))
+		{
+			sol.shoot();
+			isBayFull = false;
+			shooterWheels.stop();
 		}
 	}
 
@@ -169,3 +195,4 @@ public class Robot extends IterativeRobot
 	}
 
 }
+// TODO drive train and shooter
