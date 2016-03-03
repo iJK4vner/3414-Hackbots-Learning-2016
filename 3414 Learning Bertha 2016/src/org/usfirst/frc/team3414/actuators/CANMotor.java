@@ -14,5 +14,11 @@ public class CANMotor implements IMotor
 	{
 		motor.set(speed);
 	}
+	
+	@Override
+	public void stop()
+	{
+		motor.set(0.0);
+	}
 
 }

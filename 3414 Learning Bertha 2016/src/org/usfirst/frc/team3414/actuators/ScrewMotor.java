@@ -1,30 +1,28 @@
-package org.usfirst.frc.team3414.actuators;  
+package org.usfirst.frc.team3414.actuators;
 
- 
- public class ScrewMotor 
- { 
- 	private Relay screw; 
+import edu.wpi.first.wpilibj.Relay;
 
- 
-	public ScrewMotor(Relay _screw) 
- 	{ 
-		screw = _screw; 
-	} 
- 
- 	public void up() 
-	{ 
-		screw.set(Relay.Value.kForword); 
- 	} 
- 
- 
- 	public void down() 
-	{ 
-		screw.set(Relay.Value.kReverse); 
- 	} 
+public class ScrewMotor
+{
+	private Relay screw;
 
- 
- 	public void stop() 
- 	{ 
- 		screw.set(Relay.Value.kOff); 
-	} 
-} 
+	public ScrewMotor(Relay _screw)
+	{
+		screw = _screw;
+	}
+
+	public void up()
+	{
+		screw.set(Relay.Value.kForward);
+	}
+
+	public void down()
+	{
+		screw.set(Relay.Value.kReverse);
+	}
+
+	public void stop()
+	{
+		screw.set(Relay.Value.kOff);
+	}
+}

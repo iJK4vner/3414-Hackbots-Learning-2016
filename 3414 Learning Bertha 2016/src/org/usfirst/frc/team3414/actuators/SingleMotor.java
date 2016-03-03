@@ -14,5 +14,10 @@ public class SingleMotor implements IMotor
 	{
 		motor.set(speed);
 	}
+	
+	public void stop()
+	{
+		motor.set(0.0);
+	}
 
 }

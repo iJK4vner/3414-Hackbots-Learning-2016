@@ -18,5 +18,11 @@ public class DoubleMotor implements IMotor
 		motorTwo.setSpeed(speed);
 		motorOne.setSpeed(speed);
 	}
+	
+	public void stop()
+	{
+		motorOne.stop();
+		motorTwo.stop();
+	}
 
 }
