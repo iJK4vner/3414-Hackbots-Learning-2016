@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3414.actuators;
 
-public class TankDrive {
+public class TankDrive implements IMotor
+{
 
 	private DoubleMotor leftDoubleMotor;
 	private DoubleMotor rightDoubleMotor;

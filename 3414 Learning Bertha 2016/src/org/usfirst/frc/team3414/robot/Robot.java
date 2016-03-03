@@ -203,9 +203,7 @@ public class Robot extends IterativeRobot
 		{
 			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
 		}
-	}
-
-	public void testPeriodic()
+	
 	{
 
 	}
