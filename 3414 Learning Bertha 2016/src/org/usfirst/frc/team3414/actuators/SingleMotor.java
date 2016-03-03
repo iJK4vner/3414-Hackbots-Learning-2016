@@ -10,6 +10,7 @@ public class SingleMotor
 	{
 		motor = _motor;
 	}
+	
 	public void setSpeed (double speed)
 	{
 		motor.set(speed);

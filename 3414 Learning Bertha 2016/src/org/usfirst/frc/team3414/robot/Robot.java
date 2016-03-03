@@ -1,26 +1,25 @@
 
 package org.usfirst.frc.team3414.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogInput;
 import org.usfirst.frc.team3414.actuators.*;
 import org.usfirst.frc.team3414.sensors.*;
 
-import edu.wpi.first.wpilibj.Compressor;
-
 public class Robot extends IterativeRobot
 {
 	// FIELDS
-	private static final int FR_DRIVETRAIN_CHANNEL = 1;
-	private static final int FL_DRIVETRAIN_CHANNEL = 2;
-	private static final int BL_DRIVETRAIN_CHANNEL = 3;
-	private static final int BR_DRIVETRAIN_CHANNEL = 4;
+	private static final int FR_DRIVETRAIN_CHANNEL = 6;
+	private static final int FL_DRIVETRAIN_CHANNEL = 9;
+	private static final int BL_DRIVETRAIN_CHANNEL = 8;
+	private static final int BR_DRIVETRAIN_CHANNEL = 7;
 
 	private static final int BOT_LIM_SWITCH_CHANNEL = 1;
 	private static final int TOP_LIM_SWITCH_CHANNEL = 2;
@@ -30,19 +29,24 @@ public class Robot extends IterativeRobot
 
 	private static final int L_JOY_CHANNEL = 0;
 	private static final int R_JOY_CHANNEL = 1;
-	private static final int GAMEPAD_JOY_CHANNEL = 1;
+	private static final int GAMEPAD_JOY_CHANNEL = 3;
 
-	private static final int DSOL_A_CHANNEL = 1;
-	private static final int DSOL_B_CHANNEL = 2;
+	//lifter
+	private static final int LIFTER_DSOL_A_CHANNEL = 0;
+	private static final int LIFTER_DSOL_B_CHANNEL = 1;
 
-	private static final int SINGLE_SOLENOID_CHANNEL = 1;
+	//shooter
+	private static final int SHOOTER_DSOL_CHANNELA = 2;
+	private static final int SHOOTER_DSOL_CHANNELB = 3;
+	
 
-	private static final int LOADER_WHEELS_CHANNEL = 1;
+	private static final int LOADER_WHEELS_CHANNEL = 0;
 
-	private static final int SCREW_MOTOR_CHANNEL = 1;
+	private static final int SCREW_MOTOR_CHANNEL = 3;	//spike relay
 
-	private static final int SHOOTER_WHEELS_CHANNEL = 1;
-
+	private static final int SHOOTER_WHEELS_CHANNELA = 1;
+	private static final int SHOOTER_WHEELS_CHANNELB = 2;
+	
 	private static final int BUTTON_ONE = 1;
 	private static final int BUTTON_TWO = 2;
 	private static final int BUTTON_THREE = 3;
@@ -50,8 +54,8 @@ public class Robot extends IterativeRobot
 	private static final int BUTTON_FIVE = 5;
 	private static final int BUTTON_SIX = 6;
 
-	private static final int MAX = 190;
-	private static final int MIN = 490;
+	private static final int MAX = 3000;
+	private static final int MIN = 1000;
 	// private static final double SPEED = 0.2;
 	// private static final double TURN = 0.19;
 
@@ -59,14 +63,14 @@ public class Robot extends IterativeRobot
 	private boolean isBayFull = false;
 
 	// OBJECT INSTANTIATIONS
-	private CANTalon frontRight = new CANTalon(FR_DRIVETRAIN_CHANNEL);
-	private CANTalon frontLeft = new CANTalon(FL_DRIVETRAIN_CHANNEL);
-	private CANTalon backRight = new CANTalon(BR_DRIVETRAIN_CHANNEL);
-	private CANTalon backLeft = new CANTalon(BL_DRIVETRAIN_CHANNEL);
-	private CANMotor _frontRight = new CANMotor(frontRight);
-	private CANMotor _frontLeft = new CANMotor(frontLeft);
-	private CANMotor _backRight = new CANMotor(backRight);
-	private CANMotor _backLeft = new CANMotor(backLeft);
+	private Talon frontRight = new Talon(FR_DRIVETRAIN_CHANNEL);
+	private Talon frontLeft = new Talon(FL_DRIVETRAIN_CHANNEL);
+	private Talon backRight = new Talon(BR_DRIVETRAIN_CHANNEL);
+	private Talon backLeft = new Talon(BL_DRIVETRAIN_CHANNEL);
+	private SingleMotor _frontRight = new SingleMotor(frontRight);
+	private SingleMotor _frontLeft = new SingleMotor(frontLeft);
+	private SingleMotor _backRight = new SingleMotor(backRight);
+	private SingleMotor _backLeft = new SingleMotor(backLeft);
 	private DoubleMotor right = new DoubleMotor(_frontRight, _backRight);
 	private DoubleMotor left = new DoubleMotor(_frontLeft, _backLeft);
 	private TankDrive tankDrive = new TankDrive(right, left);
@@ -85,29 +89,28 @@ public class Robot extends IterativeRobot
 	private MyJoystick leftJoystick;
 	private MyJoystick rightJoystick;
 
-	private DoubleSolenoid _dSol = new DoubleSolenoid(DSOL_A_CHANNEL, DSOL_B_CHANNEL);
-	private DoublePiston dSol = new DoublePiston(_dSol);
+	private DoubleSolenoid _lifter = new DoubleSolenoid(LIFTER_DSOL_A_CHANNEL, LIFTER_DSOL_B_CHANNEL);
+	private DoublePiston lifter = new DoublePiston(_lifter);
 
-	private Solenoid _sol = new Solenoid(SINGLE_SOLENOID_CHANNEL);
-	private SingleSolenoid sol = new SingleSolenoid(_sol);
-
-	private CANTalon tLoaderWheels = new CANTalon(LOADER_WHEELS_CHANNEL);
-	private CANMotor mLoaderWheels = new CANMotor(tLoaderWheels);
+	private DoubleSolenoid _shooter = new DoubleSolenoid(SHOOTER_DSOL_CHANNELA, SHOOTER_DSOL_CHANNELB);
+	private DoublePiston shooter = new DoublePiston(_shooter);
+	
+	private Talon tLoaderWheels = new Talon(LOADER_WHEELS_CHANNEL);
+	private SingleMotor mLoaderWheels = new SingleMotor(tLoaderWheels);
 	private LoaderWheels loaderWheels = new LoaderWheels(mLoaderWheels);
 
-	private CANTalon tScrewMotor = new CANTalon(SCREW_MOTOR_CHANNEL);
-	private CANMotor mScrewMotor = new CANMotor(tScrewMotor);
-	private ScrewMotor screwMotor = new ScrewMotor(mScrewMotor);
+	private ScrewMotor screwMotor = new ScrewMotor(new Relay(SCREW_MOTOR_CHANNEL));
 
-	private CANTalon tShooterWheelsA = new CANTalon(SHOOTER_WHEELS_CHANNEL);
-	private CANTalon tShooterWheelsB = new CANTalon(SHOOTER_WHEELS_CHANNEL);
-	private CANMotor mShooterWheelsA = new CANMotor(tShooterWheelsA);
-	private CANMotor mShooterWheelsB = new CANMotor(tShooterWheelsB);
+	private Talon tShooterWheelsA = new Talon(SHOOTER_WHEELS_CHANNELA);
+	private Talon tShooterWheelsB = new Talon(SHOOTER_WHEELS_CHANNELB);
+	private SingleMotor mShooterWheelsA = new SingleMotor(tShooterWheelsA);
+	private SingleMotor mShooterWheelsB = new SingleMotor(tShooterWheelsB);
 	private ShooterWheels shooterWheels = new ShooterWheels(mShooterWheelsA, mShooterWheelsB);
-
+	
 	// METHODS
 	public void robotInit()
 	{
+		System.out.println("WE GOOOOOD");
 		gamepad = new MyJoystick(new Joystick(GAMEPAD_JOY_CHANNEL));
 		leftJoystick = new MyJoystick(new Joystick(L_JOY_CHANNEL));
 		rightJoystick = new MyJoystick(new Joystick(R_JOY_CHANNEL));
@@ -127,15 +130,19 @@ public class Robot extends IterativeRobot
 
 	}
 
+	double __left = 0;
+	double __right = 0;
 	public void teleopPeriodic()
 	{
 		SmartDashboard.putNumber("Pot", pot.getValue());
-
+		SmartDashboard.putBoolean("Top Lim Switch", topLimitSwitch.isHit());
+		SmartDashboard.putBoolean("Bottom Lim Switch", bottomLimitSwitch.isHit());
+		
 		// SCREW
-		if (gamepad.isButtonPressed(BUTTON_ONE) && !gamepad.isButtonPressed(BUTTON_TWO))
+		if (rightJoystick.isButtonPressed(BUTTON_ONE) && !rightJoystick.isButtonPressed(BUTTON_TWO))
 		{
 			System.out.println("Screw is Working");
-			if (pot.getValue() < MAX && topLimitSwitch.isButtonPressed())
+			if (pot.getValue() < MAX && topLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Up");
 				screwMotor.up();
@@ -144,9 +151,9 @@ public class Robot extends IterativeRobot
 				SmartDashboard.putString("Screw State", "Stopped");
 				screwMotor.stop();
 			}
-		} else if (gamepad.isButtonPressed(BUTTON_TWO) && !gamepad.isButtonPressed(BUTTON_ONE))
+		} else if (rightJoystick.isButtonPressed(BUTTON_TWO) && !rightJoystick.isButtonPressed(BUTTON_ONE))
 		{
-			if (pot.getValue() > MIN && bottomLimitSwitch.isButtonPressed())
+			if (pot.getValue() > MIN && bottomLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Down");
 				screwMotor.down();
@@ -161,8 +168,9 @@ public class Robot extends IterativeRobot
 			screwMotor.stop();
 		}
 
+		/*
 		// SHOOTER
-		if (gamepad.isButtonPressed(BUTTON_THREE) && loaderLimitSwitch.isButtonPressed() && !isBayFull && isLoaderFull)
+		if (gamepad.isButtonPressed(BUTTON_THREE) && loaderLimitSwitch.isHit() && !isBayFull && isLoaderFull)
 		{
 			loaderWheels.start();
 		} else
@@ -170,14 +178,14 @@ public class Robot extends IterativeRobot
 			loaderWheels.stop();
 		}
 
-		if (!loaderLimitSwitch.isButtonPressed() && !isBayFull && isLoaderFull)
+		if (!loaderLimitSwitch.isHit() && !isBayFull && isLoaderFull)
 		{
 			isLoaderFull = false;
 			isBayFull = true;
 			loaderWheels.stop();
 		}
 
-		if (!isLoaderFull && loaderLimitSwitch.isButtonPressed())
+		if (!isLoaderFull && loaderLimitSwitch.isHit())
 		{
 			loaderWheels.stop();
 			isLoaderFull = true;
@@ -190,24 +198,49 @@ public class Robot extends IterativeRobot
 
 		if (isBayFull && gamepad.isButtonPressed(BUTTON_FIVE))
 		{
-			sol.shoot();
+			shooter.setValue(true);
 			isBayFull = false;
 			shooterWheels.stop();
+		} else 
+		{
+			shooter.setValue(false);
 		}
+		*/
 
 		// DRIVETRAIN
-		if (rightJoystick.isButtonPressed(BUTTON_ONE))
+//		if (rightJoystick.isButtonPressed(BUTTON_ONE))
+//		{
+//			tankDrive.setSpeed(rightJoystick.getY());
+//		} else
+//		{
+//			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+//		}
+		
+		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
 		{
-			tankDrive.setSpeed(rightJoystick.getY());
-		} else
+			__right = rightJoystick.getY();
+		} else 
 		{
-			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+			__right = 0;
 		}
+		if (rightJoystick.isButtonPressed(BUTTON_THREE))
+		{
+			__left = rightJoystick.getY();
+		} else 
+		{
+			__left = 0;
+		}
+		
+		tankDrive.setSpeed(__left, -__right);
 	}
 
 	public void testPeriodic()
 	{
 
+	}
+	
+	public void disabledInit()
+	{
 	}
 
 }

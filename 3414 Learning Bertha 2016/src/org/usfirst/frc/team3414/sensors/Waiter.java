@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3414.sensors;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Waiter
 
@@ -12,15 +13,8 @@ public class Waiter
 		rr = _robot;
 	}
 
-	public void wait(int waitTime)
+	public void wait(int milliseconds)
 	{
-		long finishTime = System.currentTimeMillis() + waitTime;
-
-		System.out.println("starting");
-
-		while ((System.currentTimeMillis() < finishTime) && rr.isAutonomous())
-		{
-		}
-		System.out.println("finish");
+		Timer.delay(milliseconds);
 	}
 }

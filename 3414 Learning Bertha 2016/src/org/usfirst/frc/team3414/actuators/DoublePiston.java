@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class DoublePiston 
 {
 	private DoubleSolenoid dSol;
-	private boolean myValue;
 
 	public DoublePiston(DoubleSolenoid _dSol) 
 	{
