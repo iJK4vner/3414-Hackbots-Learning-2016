@@ -7,33 +7,33 @@
 (Open up the classes and then make the changes)
 (Look at this document for line numbers before you make any other changes)
 -----------------------------------------
-Robot.java, LoaderWheels.java, ScrewMotor.java, DoubleMotor.java, ShooterWheels.java
+DONE Robot.java, LoaderWheels.java, ScrewMotor.java, DoubleMotor.java, ShooterWheels.java
 
-Replace all instances of "CANTalon" to "Talon"
-Replace all instances of "CANMotor" to "SingleMotor"
+DONE Replace all instances of "CANTalon" to "Talon"
+DONE Replace all instances of "CANMotor" to "SingleMotor"
 -----------------------------------------
-DoublePiston.java
+DONE DoublePiston.java
 
-Delete line 8: "private boolean myValue;"
+DONE Delete line 8: "private boolean myValue;"
 -----------------------------------------
 Encoders.java
 
-Change variable "EncodeOne" to "encodeOne"
-Change "Encoders".java to "QuadEncoder".java
+DONE Change variable "EncodeOne" to "encodeOne"
+DONE Change "Encoders".java to "QuadEncoder".java
 Adjust objects to encapsulate "Encoder" (line 7, 14)
-Delete free() method
-Delete getEncodingScale() method
-Delete getFPGAIndex() method
-Delete getPeriod() method
-Delete commented getPIDSourceType() method
-Delete getSamplesToAverage() method
-Delete getSmartDashboardType() method
-Delete commented getITable() method
-Delete commented initTable(ITable subtable) method
-Delete pidGet() method
-Uncomment reset() method
-Change /** comment above setDistancePerPulse(double distancePerPulse) method
-Change setDistancePerPulse(double distancePerPulse) method to:
+DONE Delete free() method
+DONE Delete getEncodingScale() method
+DONE Delete getFPGAIndex() method
+DONE Delete getPeriod() method
+DONE Delete commented getPIDSourceType() method
+DONE Delete getSamplesToAverage() method
+DONE Delete getSmartDashboardType() method
+DONE Delete commented getITable() method
+DONE Delete commented initTable(ITable subtable) method
+DONE Delete pidGet() method
+DONE Uncomment reset() method
+DONE Change /** comment above setDistancePerPulse(double distancePerPulse) method
+DONE Change setDistancePerPulse(double distancePerPulse) method to:
 	encodeOne.setDistancePerPulse(distancePerPulse);
 -----------------------------------------
 IEncoder.java

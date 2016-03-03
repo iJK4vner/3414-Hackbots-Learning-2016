@@ -60,14 +60,14 @@ public class Robot extends IterativeRobot
 	private boolean isBayFull = false;
 
 	// OBJECT INSTANTIATIONS
-	private CANTalon frontRight = new CANTalon(FR_DRIVETRAIN_CHANNEL);
-	private CANTalon frontLeft = new CANTalon(FL_DRIVETRAIN_CHANNEL);
-	private CANTalon backRight = new CANTalon(BR_DRIVETRAIN_CHANNEL);
-	private CANTalon backLeft = new CANTalon(BL_DRIVETRAIN_CHANNEL);
-	private CANMotor _frontRight = new CANMotor(frontRight);
-	private CANMotor _frontLeft = new CANMotor(frontLeft);
-	private CANMotor _backRight = new CANMotor(backRight);
-	private CANMotor _backLeft = new CANMotor(backLeft);
+	private Talon frontRight = new Talon(FR_DRIVETRAIN_CHANNEL);
+	private Talon frontLeft = new Talon(FL_DRIVETRAIN_CHANNEL);
+	private Talon backRight = new Talon(BR_DRIVETRAIN_CHANNEL);
+	private Talon backLeft = new Talon(BL_DRIVETRAIN_CHANNEL);
+	private SingleMotor _frontRight = new SingleMotor(frontRight);
+	private SingleMotor _frontLeft = new SingleMotor(frontLeft);
+	private SingleMotor _backRight = new SingleMotor(backRight);
+	private SingleMotor _backLeft = new SingleMotor(backLeft);
 	private DoubleMotor right = new DoubleMotor(_frontRight, _backRight);
 	private DoubleMotor left = new DoubleMotor(_frontLeft, _backLeft);
 	private TankDrive tankDrive = new TankDrive(right, left);
@@ -93,18 +93,18 @@ public class Robot extends IterativeRobot
 	private Solenoid _sol = new Solenoid(SINGLE_SOLENOID_CHANNEL);
 	private SingleSolenoid sol = new SingleSolenoid(_sol);
 
-	private CANTalon tLoaderWheels = new CANTalon(LOADER_WHEELS_CHANNEL);
-	private CANMotor mLoaderWheels = new CANMotor(tLoaderWheels);
+	private Talon tLoaderWheels = new Talon(LOADER_WHEELS_CHANNEL);
+	private SingleMotor mLoaderWheels = new SingleMotor(tLoaderWheels);
 	private LoaderWheels loaderWheels = new LoaderWheels(mLoaderWheels);
 
-	private CANTalon tScrewMotor = new CANTalon(SCREW_MOTOR_CHANNEL);
-	private CANMotor mScrewMotor = new CANMotor(tScrewMotor);
+	private Talon tScrewMotor = new Talon(SCREW_MOTOR_CHANNEL);
+	private SingleMotor mScrewMotor = new SingleMotor(tScrewMotor);
 	private ScrewMotor screwMotor = new ScrewMotor(mScrewMotor);
 
-	private CANTalon tShooterWheelsA = new CANTalon(SHOOTER_WHEELS_CHANNEL);
-	private CANTalon tShooterWheelsB = new CANTalon(SHOOTER_WHEELS_CHANNEL);
-	private CANMotor mShooterWheelsA = new CANMotor(tShooterWheelsA);
-	private CANMotor mShooterWheelsB = new CANMotor(tShooterWheelsB);
+	private Talon tShooterWheelsA = new Talon(SHOOTER_WHEELS_CHANNEL);
+	private Talon tShooterWheelsB = new Talon(SHOOTER_WHEELS_CHANNEL);
+	private SingleMotor mShooterWheelsA = new SingleMotor(tShooterWheelsA);
+	private SingleMotor mShooterWheelsB = new SingleMotor(tShooterWheelsB);
 	private ShooterWheels shooterWheels = new ShooterWheels(mShooterWheelsA, mShooterWheelsB);
 
 	// METHODS
@@ -215,9 +215,7 @@ public class Robot extends IterativeRobot
 		{
 			driveScale = 1.0;
 		}
-	}
-
-	public void testPeriodic()
+	
 	{
 
 	}
