@@ -35,8 +35,8 @@ public class Robot extends IterativeRobot
 	private static final int R_JOY_CHANNEL = 1;
 	private static final int GAMEPAD_JOY_CHANNEL = 2;
 
-	private static final int LIFTER_DSOL_A_CHANNEL = 1;
-	private static final int LIFTER_DSOL_B_CHANNEL = 2;
+	private static final int LIFTER_DSOL_A_CHANNEL = 0;
+	private static final int LIFTER_DSOL_B_CHANNEL = 1;
 
 	private static final int SHOOTER_DSOL_A_CHANNEL = 2;
 	private static final int SHOOTER_DSOL_B_CHANNEL = 3;
@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot
 	private DoublePiston dLifter = new DoublePiston(_dLifter);
 	private PyramidLifter lifter = new PyramidLifter(dLifter);
 
-	private DoubleSolenoid _dShooter = new DoubleSolenoid(LIFTER_DSOL_A_CHANNEL, LIFTER_DSOL_B_CHANNEL);
+	private DoubleSolenoid _dShooter = new DoubleSolenoid(SHOOTER_DSOL_A_CHANNEL, SHOOTER_DSOL_B_CHANNEL);
 	private DoublePiston dShooter = new DoublePiston(_dShooter);
 	private PyramidLifter shooter = new PyramidLifter(dShooter);
 	
@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot
 	private ScrewMotor screwMotor = new ScrewMotor(tScrewMotor);
 
 	private Talon tShooterWheelsA = new Talon(SHOOTER_WHEELS_CHANNELA);
-	private Talon tShooterWheelsB = new Talon(SHOOTER_WHEELS_CHANNELA);
+	private Talon tShooterWheelsB = new Talon(SHOOTER_WHEELS_CHANNELB);
 	private SingleMotor mShooterWheelsA = new SingleMotor(tShooterWheelsA);
 	private SingleMotor mShooterWheelsB = new SingleMotor(tShooterWheelsB);
 	private ShooterWheels shooterWheels = new ShooterWheels(mShooterWheelsA, mShooterWheelsB);
@@ -131,6 +131,9 @@ public class Robot extends IterativeRobot
 
 	}
 
+	double leftSpeed;
+	double rightSpeed;
+	
 	public void teleopPeriodic()
 	{
 		SmartDashboard.putNumber("Pot", pot.getValue());
@@ -214,12 +217,18 @@ public class Robot extends IterativeRobot
 		}
 
 		// DRIVETRAIN
+		
+		 leftSpeed = leftJoystick.getY() * driveScale;
+		rightSpeed = rightJoystick.getY() * driveScale;
+		
+		SmartDashboard.putNumber("Left", leftSpeed);
+		SmartDashboard.putNumber("Right", rightSpeed);
 		if (rightJoystick.isButtonPressed(BUTTON_ONE))
 		{
-			tankDrive.setSpeed(rightJoystick.getY() * driveScale);
+			tankDrive.setSpeed(rightSpeed);
 		} else
 		{
-			tankDrive.setSpeed(leftJoystick.getY() * driveScale, rightJoystick.getY() * driveScale);
+			tankDrive.setSpeed(leftSpeed, rightSpeed);
 		}
 
 		if (leftJoystick.isButtonPressed(BUTTON_ONE))
