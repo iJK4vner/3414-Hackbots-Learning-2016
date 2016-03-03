@@ -2,7 +2,7 @@ package org.usfirst.frc.team3414.actuators;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
-public class CANMotor 
+public class CANMotor implements IMotor
 {
 	private CANTalon motor;
 

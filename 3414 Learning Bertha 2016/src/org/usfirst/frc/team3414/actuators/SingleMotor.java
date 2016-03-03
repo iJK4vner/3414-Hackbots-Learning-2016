@@ -2,7 +2,7 @@ package org.usfirst.frc.team3414.actuators;
 
 import edu.wpi.first.wpilibj.Talon;
 
-public class SingleMotor
+public class SingleMotor implements IMotor
 {
 	private Talon motor;
 

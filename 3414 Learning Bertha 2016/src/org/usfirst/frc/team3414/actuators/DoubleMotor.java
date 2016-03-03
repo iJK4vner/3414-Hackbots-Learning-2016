@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3414.actuators;
 
-public class DoubleMotor
+public class DoubleMotor implements IMotor
 {
 
 	private CANMotor motorOne;
