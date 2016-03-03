@@ -21,6 +21,7 @@ public class Robot extends IterativeRobot
 	private static final int FL_DRIVETRAIN_CHANNEL = 2;
 	private static final int BL_DRIVETRAIN_CHANNEL = 3;
 	private static final int BR_DRIVETRAIN_CHANNEL = 4;
+	private double driveScale = 1.0;
 
 	private static final int BOT_LIM_SWITCH_CHANNEL = 1;
 	private static final int TOP_LIM_SWITCH_CHANNEL = 2;
@@ -86,7 +87,8 @@ public class Robot extends IterativeRobot
 	private MyJoystick rightJoystick;
 
 	private DoubleSolenoid _dSol = new DoubleSolenoid(DSOL_A_CHANNEL, DSOL_B_CHANNEL);
-	private DoublePiston dSol = new DoublePiston(_dSol);
+	private PyramidLifter lifter = new PyramidLifter(dSol);
+	
 
 	private Solenoid _sol = new Solenoid(SINGLE_SOLENOID_CHANNEL);
 	private SingleSolenoid sol = new SingleSolenoid(_sol);
@@ -133,7 +135,7 @@ public class Robot extends IterativeRobot
 
 		// SCREW
 		if (gamepad.isButtonPressed(BUTTON_ONE) && !gamepad.isButtonPressed(BUTTON_TWO))
-		{
+		{Change to "!topLimitSwitch.isButtonPressed()"
 			System.out.println("Screw is Working");
 			if (pot.getValue() < MAX && topLimitSwitch.isButtonPressed())
 			{
@@ -144,7 +146,7 @@ public class Robot extends IterativeRobot
 				SmartDashboard.putString("Screw State", "Stopped");
 				screwMotor.stop();
 			}
-		} else if (gamepad.isButtonPressed(BUTTON_TWO) && !gamepad.isButtonPressed(BUTTON_ONE))
+		} "!bottomLimitSwitch.isButtonPressed()"
 		{
 			if (pot.getValue() > MIN && bottomLimitSwitch.isButtonPressed())
 			{
@@ -184,8 +186,10 @@ public class Robot extends IterativeRobot
 		}
 
 		if (isBayFull && gamepad.isButtonPressed(BUTTON_FOUR))
-		{
+		{ 
 			shooterWheels.start();
+		} else{
+			shooterWheels.stop();
 		}
 
 		if (isBayFull && gamepad.isButtonPressed(BUTTON_FIVE))
@@ -198,10 +202,18 @@ public class Robot extends IterativeRobot
 		// DRIVETRAIN
 		if (rightJoystick.isButtonPressed(BUTTON_ONE))
 		{
-			tankDrive.setSpeed(rightJoystick.getY());
+			tankDrive.setSpeed(rightJoystick.getY() * driveScale);
 		} else
 		{
-			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+			tankDrive.setSpeed(leftJoystick.getY() * driveScale, rightJoystick.getY() * driveScale);
+		}
+		
+		if (leftJoystick.isButtonPressed(BUTTON_ONE))
+		{
+			driveScale = 0.5;
+		} else
+		{
+			driveScale = 1.0;
 		}
 	}
 
