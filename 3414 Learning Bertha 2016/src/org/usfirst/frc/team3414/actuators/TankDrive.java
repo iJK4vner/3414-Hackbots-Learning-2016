@@ -13,35 +13,35 @@ public class TankDrive implements IMotor
 	}
 	
 	
-	public void forward(double speed)
-	{
-		leftDoubleMotor.setSpeed(Math.abs(speed));
-		rightDoubleMotor.setSpeed(Math.abs(speed));
-	}
-	public void backward(double speed)
-	{
-		leftDoubleMotor.setSpeed(-Math.abs(speed));
-		rightDoubleMotor.setSpeed(-Math.abs(speed));
-	}
-	public void turnLeft(double speed)
-	{
-		leftDoubleMotor.setSpeed(speed);
-		rightDoubleMotor.setSpeed(-speed);
-		}
-	public void turnRight(double speed)
-	{
-		leftDoubleMotor.setSpeed(-speed);
-		rightDoubleMotor.setSpeed(speed);
-	}
+//	public void forward(double speed)
+//	{
+//		leftDoubleMotor.setSpeed(Math.abs(speed));
+//		rightDoubleMotor.setSpeed(Math.abs(speed));
+//	}
+//	public void backward(double speed)
+//	{
+//		leftDoubleMotor.setSpeed(Math.abs(-speed));
+//		rightDoubleMotor.setSpeed(Math.abs(-speed));
+//	}
+//	public void turnLeft(double speed)
+//	{
+//		leftDoubleMotor.setSpeed(speed);
+//		rightDoubleMotor.setSpeed(-speed);
+//		}
+//	public void turnRight(double speed)
+//	{
+//		leftDoubleMotor.setSpeed(-speed);
+//		rightDoubleMotor.setSpeed(speed);
+//	}
 	public void setSpeed(double speed)
 	{
-		leftDoubleMotor.setSpeed(speed);
+		leftDoubleMotor.setSpeed(-speed);
 		rightDoubleMotor.setSpeed(speed);
 	}
 	public void setSpeed(double leftSpeed, double rightSpeed)
 	{
 		leftDoubleMotor.setSpeed(leftSpeed);
-		rightDoubleMotor.setSpeed(rightSpeed);
+		rightDoubleMotor.setSpeed(-rightSpeed);
 	}
 	public void stop()
 	{
