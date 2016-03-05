@@ -34,15 +34,13 @@ public class Robot extends IterativeRobot
 	//lifter
 	private static final int LIFTER_DSOL_A_CHANNEL = 0;
 	private static final int LIFTER_DSOL_B_CHANNEL = 1;
-
-	//shooter
-	private static final int SHOOTER_DSOL_CHANNELA = 2;
-	private static final int SHOOTER_DSOL_CHANNELB = 3;
 	
-
+	private static final int SHOOTER_DSOL_A_CHANNEL = 2;
+	private static final int SHOOTER_DSOL_B_CHANNEL = 3;
+	
 	private static final int LOADER_WHEELS_CHANNEL = 0;
 
-	private static final int SCREW_MOTOR_CHANNEL = 3;	//spike relay
+	private static final int SCREW_MOTOR_CHANNEL = 3;
 
 	private static final int SHOOTER_WHEELS_CHANNELA = 1;
 	private static final int SHOOTER_WHEELS_CHANNELB = 2;
@@ -89,10 +87,10 @@ public class Robot extends IterativeRobot
 	private MyJoystick leftJoystick;
 	private MyJoystick rightJoystick;
 
-	private DoubleSolenoid _lifter = new DoubleSolenoid(LIFTER_DSOL_A_CHANNEL, LIFTER_DSOL_B_CHANNEL);
+	private DSolenoid _lifter = new DSolenoid(new DoubleSolenoid(LIFTER_DSOL_A_CHANNEL, LIFTER_DSOL_B_CHANNEL));
 	private DoublePiston lifter = new DoublePiston(_lifter);
-
-	private DoubleSolenoid _shooter = new DoubleSolenoid(SHOOTER_DSOL_CHANNELA, SHOOTER_DSOL_CHANNELB);
+	
+	private DSolenoid _shooter = new DSolenoid(new DoubleSolenoid(SHOOTER_DSOL_A_CHANNEL, SHOOTER_DSOL_B_CHANNEL));
 	private DoublePiston shooter = new DoublePiston(_shooter);
 	
 	private Talon tLoaderWheels = new Talon(LOADER_WHEELS_CHANNEL);
@@ -216,6 +214,7 @@ public class Robot extends IterativeRobot
 //			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
 //		}
 		
+		/*
 		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
 		{
 			__right = rightJoystick.getY();
@@ -232,6 +231,9 @@ public class Robot extends IterativeRobot
 		}
 		
 		tankDrive.setSpeed(__left, -__right);
+		*/
+		tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+		
 	}
 
 	public void testPeriodic()

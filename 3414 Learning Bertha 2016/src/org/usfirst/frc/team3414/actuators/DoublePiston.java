@@ -1,36 +1,22 @@
 package org.usfirst.frc.team3414.actuators;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 public class DoublePiston 
 {
-	private DoubleSolenoid dSol;
+	private DSolenoid dSol;
 
-	public DoublePiston(DoubleSolenoid _dSol) 
+	public DoublePiston(DSolenoid _dSol) 
 	{
 		dSol = _dSol;
 	}
 
-	public void setValue(boolean value)
+	public void engage()
 	{
-		if (value == true)
-		{
-			dSol.set(DoubleSolenoid.Value.kForward);
-		} else {
-			dSol.set(DoubleSolenoid.Value.kReverse);
-		}
+		dSol.setValue(true);
 	}
 
-	public boolean getValue()
+	public void disengage()
 	{
-		if (dSol.get() == (DoubleSolenoid.Value.kForward))
-		{
-			return true;
-		} else {
-
-			return false;
-		}
-
+		dSol.setValue(false);
 	}
 
 }

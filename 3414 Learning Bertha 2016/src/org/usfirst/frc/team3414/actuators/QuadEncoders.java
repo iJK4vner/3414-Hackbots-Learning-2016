@@ -4,61 +4,52 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class QuadEncoders
 {
-	private Encoder encodeOne;
+	private Encoder encoder;
 
-	/**
-	 * Creates Encoders
-	 * 
-	 * @param channel
-	 */
 	public QuadEncoders(Encoder _encoder)
 	{
-		encodeOne = _encoder;
+		encoder = _encoder;
+		reset();
 	}
 
-	/**
-	 * Gets something
-	 * 
-	 * @return
-	 */
 	public int get()
 	{
-		return encodeOne.get();
+		return encoder.get();
 	}
 
 	public boolean getDirection()
 	{
-		return encodeOne.getDirection();
+		return encoder.getDirection();
 	}
 
 	public double getDistance()
 	{
-		return encodeOne.getDistance();
+		return encoder.getDistance();
 	}
 
 
 	public double getRate()
 	{
-		return encodeOne.getRate();
+		return encoder.getRate();
 	}
 
 	public int getRaw()
 	{
-		return encodeOne.getRaw();
+		return encoder.getRaw();
 	}
 
 	public boolean getStopped()
 	{
-		return encodeOne.getStopped();
+		return encoder.getStopped();
 	}
 
 	public void reset()
 	{
-		encodeOne.reset();
+		encoder.reset();
 	}
 
 	public void setDistancePerPulse(double distancePerPulse)
 	{
-		encodeOne.setDistancePerPulse(distancePerPulse);
+		encoder.setDistancePerPulse(distancePerPulse);
 	}
 }

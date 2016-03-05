@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Servo;
 
 public class MyServo
 {
-
 	private Servo myServo;
 
 	public MyServo(Servo _myServo)

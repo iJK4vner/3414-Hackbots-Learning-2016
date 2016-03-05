@@ -22,13 +22,7 @@ public class ScrewPot
 		}
 	}
 
-	public void resetCount()
-	{
-		// .resetCount();
-
-	}
-
-	public double getTransformedCount()
+	public double getPercentageOfMax()
 	{
 		return ((getCount() - MIN) / (MAX - MIN));
 
