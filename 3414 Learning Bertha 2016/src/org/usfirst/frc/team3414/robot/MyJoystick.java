@@ -15,7 +15,7 @@ public class MyJoystick
 		myJoystick = _myJoystick;
 	}
 
-	public double getY()
+	public double getX()
 	{
 		if (Math.abs(myJoystick.getRawAxis(HORIZONTAL_AXIS)) < DEADZONE)
 		{
@@ -26,7 +26,7 @@ public class MyJoystick
 		}
 	}
 
-	public double getX()
+	public double getY()
 	{
 		if (Math.abs(myJoystick.getRawAxis(VERTICAL_AXIS)) < DEADZONE)
 		{
