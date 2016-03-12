@@ -1,30 +1,33 @@
-package org.usfirst.frc.team3414.actuators; 
+package org.usfirst.frc.team3414.actuators;
 
-import edu.wpi.first.wpilibj.Relay; 
- 
- public class ScrewMotor 
- { 
- 	private Relay screw;
+import edu.wpi.first.wpilibj.Talon;
 
-	public ScrewMotor(Relay _screw) 
- 	{ 
-		screw = _screw; 
-	} 
- 
- 	public void up() 
-	{ 
-		screw.set(Relay.Value.kForward); 
- 	} 
- 
- 
- 	public void down() 
-	{ 
-		screw.set(Relay.Value.kReverse); 
- 	} 
+public class ScrewMotor
+{
+	private final static double MOVE_SPEED = 0.5;
+	private final static double STOP = 0;
+	
+	private Talon screw;
 
- 
- 	public void stop() 
- 	{ 
- 		screw.set(Relay.Value.kOff); 
-	} 
-} 
+	public ScrewMotor(Talon _screw)
+	{
+		screw = _screw;
+	}
+
+	public void up()
+	{
+		// screw.set(Talon.Value.kForward);
+		screw.set(MOVE_SPEED);
+	}
+
+	public void down()
+	{
+		// screw.set(Talon.Value.kReverse);
+		screw.set(-MOVE_SPEED);
+	}
+
+	public void stop()
+	{
+		screw.set(STOP);
+	}
+}

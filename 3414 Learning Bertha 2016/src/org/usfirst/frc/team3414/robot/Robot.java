@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot
 	private static final int BR_DRIVETRAIN_CHANNEL = 7;
 
 	private static final int BOT_LIM_SWITCH_CHANNEL = 1;
-	private static final int TOP_LIM_SWITCH_CHANNEL = 2;
+	private static final int TOP_LIM_SWITCH_CHANNEL = 0;
 	private static final int LOADER_LIM_SWITCH_CHANNEL = 3;
 
 	private static final int POT_CHANNEL = 0;
@@ -38,19 +38,12 @@ public class Robot extends IterativeRobot
 	private static final int SHOOTER_DSOL_A_CHANNEL = 2;
 	private static final int SHOOTER_DSOL_B_CHANNEL = 3;
 	
-	private static final int LOADER_WHEELS_CHANNEL = 0;
+	private static final int SCREW_MOTOR_CHANNEL = 2 ;
 
-	private static final int SCREW_MOTOR_CHANNEL = 3;
+	private static final int LOADER_SPIKE_CHANNEL = 3;
 
 	private static final int SHOOTER_WHEELS_CHANNELA = 1;
-	private static final int SHOOTER_WHEELS_CHANNELB = 2;
-	
-	private static final int BUTTON_ONE = 1;
-	private static final int BUTTON_TWO = 2;
-	private static final int BUTTON_THREE = 3;
-	private static final int BUTTON_FOUR = 4;
-	private static final int BUTTON_FIVE = 5;
-	private static final int BUTTON_SIX = 6;
+	private static final int SHOOTER_WHEELS_CHANNELB = 0;
 
 	private static final int MAX = 3000;
 	private static final int MIN = 1000;
@@ -69,9 +62,9 @@ public class Robot extends IterativeRobot
 	private SingleMotor _frontLeft = new SingleMotor(frontLeft);
 	private SingleMotor _backRight = new SingleMotor(backRight);
 	private SingleMotor _backLeft = new SingleMotor(backLeft);
-	private DoubleMotor right = new DoubleMotor(_frontRight, _backRight);
-	private DoubleMotor left = new DoubleMotor(_frontLeft, _backLeft);
-	private TankDrive tankDrive = new TankDrive(right, left);
+	private DoubleMotor rightDoubleMotor = new DoubleMotor(_frontRight, _backRight);
+	private DoubleMotor leftDoubleMotor = new DoubleMotor(_frontLeft, _backLeft);
+	private TankDrive tankDrive = new TankDrive(leftDoubleMotor, rightDoubleMotor);
 
 	private DigitalInput _bottomLimitSwitch = new DigitalInput(BOT_LIM_SWITCH_CHANNEL);
 	private DigitalInput _topLimitSwitch = new DigitalInput(TOP_LIM_SWITCH_CHANNEL);
@@ -93,22 +86,20 @@ public class Robot extends IterativeRobot
 	private DSolenoid _shooter = new DSolenoid(new DoubleSolenoid(SHOOTER_DSOL_A_CHANNEL, SHOOTER_DSOL_B_CHANNEL));
 	private DoublePiston shooter = new DoublePiston(_shooter);
 	
-	private Talon tLoaderWheels = new Talon(LOADER_WHEELS_CHANNEL);
-	private SingleMotor mLoaderWheels = new SingleMotor(tLoaderWheels);
-	private LoaderWheels loaderWheels = new LoaderWheels(mLoaderWheels);
+	private LoaderWheels loaderWheels = new LoaderWheels(new Relay (LOADER_SPIKE_CHANNEL));
 
-	private ScrewMotor screwMotor = new ScrewMotor(new Relay(SCREW_MOTOR_CHANNEL));
+	private ScrewMotor screwMotor = new ScrewMotor(new Talon(SCREW_MOTOR_CHANNEL));
 
-	private Talon tShooterWheelsA = new Talon(SHOOTER_WHEELS_CHANNELA);
-	private Talon tShooterWheelsB = new Talon(SHOOTER_WHEELS_CHANNELB);
-	private SingleMotor mShooterWheelsA = new SingleMotor(tShooterWheelsA);
-	private SingleMotor mShooterWheelsB = new SingleMotor(tShooterWheelsB);
+	private SingleMotor mShooterWheelsA = new SingleMotor (new Talon (SHOOTER_WHEELS_CHANNELA));
+	private SingleMotor mShooterWheelsB = new SingleMotor (new Talon (SHOOTER_WHEELS_CHANNELB));
 	private ShooterWheels shooterWheels = new ShooterWheels(mShooterWheelsA, mShooterWheelsB);
+	
+
 	
 	// METHODS
 	public void robotInit()
 	{
-		System.out.println("WE GOOOOOD");
+		System.out.println("Robot Init");
 		gamepad = new MyJoystick(new Joystick(GAMEPAD_JOY_CHANNEL));
 		leftJoystick = new MyJoystick(new Joystick(L_JOY_CHANNEL));
 		rightJoystick = new MyJoystick(new Joystick(R_JOY_CHANNEL));
@@ -133,14 +124,15 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		SmartDashboard.putNumber("Pot", pot.getValue());
-		SmartDashboard.putBoolean("Top Lim Switch", topLimitSwitch.isHit());
-		SmartDashboard.putBoolean("Bottom Lim Switch", bottomLimitSwitch.isHit());
+		SmartDashboard.putBoolean("Top Lim Switch (0)", topLimitSwitch.isHit());
+		SmartDashboard.putBoolean("Loader Lim Switch (3)", loaderLimitSwitch.isHit());
+		SmartDashboard.putBoolean("Bottom Lim Switch (1)", bottomLimitSwitch.isHit());
 		
 		// SCREW
-		if (rightJoystick.isButtonPressed(BUTTON_ONE) && !rightJoystick.isButtonPressed(BUTTON_TWO))
+		if (rightJoystick.isButtonPressed(EJoystickButtons.ONE) && !rightJoystick.isButtonPressed(EJoystickButtons.TWO))
 		{
 			System.out.println("Screw is Working");
-			if (pot.getValue() < MAX && topLimitSwitch.isHit())
+			if (pot.getValue() < MAX && !topLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Up");
 				screwMotor.up();
@@ -149,9 +141,10 @@ public class Robot extends IterativeRobot
 				SmartDashboard.putString("Screw State", "Stopped");
 				screwMotor.stop();
 			}
-		} else if (rightJoystick.isButtonPressed(BUTTON_TWO) && !rightJoystick.isButtonPressed(BUTTON_ONE))
+		} else if (rightJoystick.isButtonPressed(EJoystickButtons.TWO) && !rightJoystick.isButtonPressed(EJoystickButtons.ONE))
 		{
-			if (pot.getValue() > MIN && bottomLimitSwitch.isHit())
+			System.out.println("Screw is Working");
+			if (pot.getValue() > MIN && !bottomLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Down");
 				screwMotor.down();
@@ -213,25 +206,25 @@ public class Robot extends IterativeRobot
 //		{
 //			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
 //		}
-		
-		/*
-		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
-		{
-			__right = rightJoystick.getY();
-		} else 
-		{
-			__right = 0;
-		}
-		if (rightJoystick.isButtonPressed(BUTTON_THREE))
-		{
-			__left = rightJoystick.getY();
-		} else 
-		{
-			__left = 0;
-		}
-		
-		tankDrive.setSpeed(__left, -__right);
-		*/
+//		
+//		
+//		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
+//		{
+//			__right = rightJoystick.getY();
+//		} else 
+//		{
+//			__right = 0;
+//		}
+//		if (rightJoystick.isButtonPressed(BUTTON_THREE))
+//		{
+//			__left = rightJoystick.getY();
+//		} else 
+//		{
+//			__left = 0;
+//		}
+//		
+//		tankDrive.setSpeed(__left, -__right);
+//		
 		tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
 		
 	}

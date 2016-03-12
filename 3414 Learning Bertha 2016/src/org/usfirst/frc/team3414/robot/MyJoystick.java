@@ -48,11 +48,38 @@ public class MyJoystick
 		}
 	}
 
-	public boolean isButtonPressed(int button)
+	public boolean isButtonPressed(EJoystickButtons button)
 	{
-		return myJoystick.getRawButton(button);
-	}
-	
-}
+		switch (button)
+		{
+		case ONE:
+			return myJoystick.getRawButton(1);
+		case TWO:
+			return myJoystick.getRawButton(2);
+		case THREE:
+			return myJoystick.getRawButton(3);
+		case FOUR:
+			return myJoystick.getRawButton(4);
+		case FIVE:
+			return myJoystick.getRawButton(5);
+		case SIX:
+			return myJoystick.getRawButton(6);
+		case SEVEN:
+			return myJoystick.getRawButton(7);
+		case EIGHT:
+			return myJoystick.getRawButton(8);
+		case NINE:
+			return myJoystick.getRawButton(9);
+		case TEN:
+			return myJoystick.getRawButton(10);
+		case ELEVEN:
+			return myJoystick.getRawButton(11);
+		case TWELVE:
+			return myJoystick.getRawButton(12);
+		default:
+			return false;
+		}
 
-	
+	}
+
+}

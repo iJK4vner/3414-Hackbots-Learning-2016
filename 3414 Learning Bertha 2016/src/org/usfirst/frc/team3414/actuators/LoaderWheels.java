@@ -1,24 +1,21 @@
 package org.usfirst.frc.team3414.actuators;
 
-public class LoaderWheels 
-{
-	private SingleMotor loaderMotor;
-	
-	private double SPEED = -0.5;
-	private double ZERO = 0.0;
+import edu.wpi.first.wpilibj.Relay;
 
-	public LoaderWheels(SingleMotor _loaderMotor)
-	{
-		loaderMotor = _loaderMotor;
-	}
+public class LoaderWheels
+{
+	private Relay sMotor;
 	
+	public LoaderWheels(Relay _sMotor)
+	{
+		sMotor = _sMotor;
+	}
 	public void start()
 	{
-		loaderMotor.setSpeed(SPEED);
+		sMotor.set(Relay.Value.kForward);
 	}
-
-	public void stop() 
+	public void stop()
 	{
-		loaderMotor.setSpeed(ZERO);
+		sMotor.set(Relay.Value.kOff);
 	}
 }
