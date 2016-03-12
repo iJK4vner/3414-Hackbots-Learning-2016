@@ -45,8 +45,8 @@ public class Robot extends IterativeRobot
 	private static final int SHOOTER_WHEELS_CHANNELA = 1;
 	private static final int SHOOTER_WHEELS_CHANNELB = 0;
 
-	private static final int MAX = 3000;
-	private static final int MIN = 1000;
+	private static final int MAX = 3010;
+	private static final int MIN = 960;
 	// private static final double SPEED = 0.2;
 	// private static final double TURN = 0.19;
 
@@ -129,10 +129,11 @@ public class Robot extends IterativeRobot
 		SmartDashboard.putBoolean("Bottom Lim Switch (1)", bottomLimitSwitch.isHit());
 		
 		// SCREW
-		if (rightJoystick.isButtonPressed(EJoystickButtons.ONE) && !rightJoystick.isButtonPressed(EJoystickButtons.TWO))
+		if (gamepad.isButtonPressed(EJoystickButtons.FOUR) && !gamepad.isButtonPressed(EJoystickButtons.TWO))
 		{
 			System.out.println("Screw is Working");
-			if (pot.getValue() < MAX && !topLimitSwitch.isHit())
+			if (pot.getValue() < MAX)
+//			if (pot.getValue() < MAX && !topLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Up");
 				screwMotor.up();
@@ -141,10 +142,11 @@ public class Robot extends IterativeRobot
 				SmartDashboard.putString("Screw State", "Stopped");
 				screwMotor.stop();
 			}
-		} else if (rightJoystick.isButtonPressed(EJoystickButtons.TWO) && !rightJoystick.isButtonPressed(EJoystickButtons.ONE))
+		} else if (gamepad.isButtonPressed(EJoystickButtons.TWO) && !gamepad.isButtonPressed(EJoystickButtons.FOUR))
 		{
 			System.out.println("Screw is Working");
-			if (pot.getValue() > MIN && !bottomLimitSwitch.isHit())
+			if (pot.getValue() > MIN)
+//			if (pot.getValue() > MIN && !bottomLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Down");
 				screwMotor.down();
@@ -199,32 +201,32 @@ public class Robot extends IterativeRobot
 		*/
 
 		// DRIVETRAIN
-//		if (rightJoystick.isButtonPressed(BUTTON_ONE))
-//		{
-//			tankDrive.setSpeed(rightJoystick.getY());
-//		} else
-//		{
-//			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
-//		}
-//		
-//		
-//		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
-//		{
-//			__right = rightJoystick.getY();
-//		} else 
-//		{
-//			__right = 0;
-//		}
-//		if (rightJoystick.isButtonPressed(BUTTON_THREE))
-//		{
-//			__left = rightJoystick.getY();
-//		} else 
-//		{
-//			__left = 0;
-//		}
-//		
-//		tankDrive.setSpeed(__left, -__right);
-//		
+		if (rightJoystick.isButtonPressed(BUTTON_ONE))
+		{
+			tankDrive.setSpeed(rightJoystick.getY());
+		} else
+		{
+			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+		}
+		
+		
+		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
+		{
+			__right = rightJoystick.getY();
+		} else 
+		{
+			__right = 0;
+		}
+		if (rightJoystick.isButtonPressed(BUTTON_THREE))
+		{
+			__left = rightJoystick.getY();
+		} else 
+		{
+			__left = 0;
+		}
+		
+		tankDrive.setSpeed(__left, -__right);
+		
 		tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
 		
 	}
