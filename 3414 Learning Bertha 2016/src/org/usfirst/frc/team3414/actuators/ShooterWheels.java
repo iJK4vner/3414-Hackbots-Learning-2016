@@ -16,7 +16,7 @@ public class ShooterWheels
 
 	public void start()
 	{
-		shooterMotorA.setSpeed(SPEED);
+		shooterMotorA.setSpeed(-SPEED);
 		shooterMotorB.setSpeed(SPEED);
 	}
 

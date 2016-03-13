@@ -14,7 +14,7 @@ public class DigitalLimitSwitch implements ILimitSwitch
 	@Override
 	public boolean isHit()
 	{
-		return !limitSwitchOne.get();
+		return limitSwitchOne.get();
 	}
 
 }

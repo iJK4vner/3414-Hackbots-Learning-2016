@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class ScrewMotor
 {
-	private final static double MOVE_SPEED = 0.8;
+	private final static double MOVE_SPEED = 1.0;
 	private final static double STOP = 0;
 	
 	private Talon screw;

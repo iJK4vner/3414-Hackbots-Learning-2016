@@ -12,7 +12,7 @@ public class LoaderWheels
 	}
 	public void start()
 	{
-		sMotor.set(Relay.Value.kForward);
+		sMotor.set(Relay.Value.kReverse);
 	}
 	public void stop()
 	{

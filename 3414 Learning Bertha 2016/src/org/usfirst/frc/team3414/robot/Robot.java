@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3414.robot;
 
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -94,7 +95,7 @@ public class Robot extends IterativeRobot
 	private SingleMotor mShooterWheelsB = new SingleMotor (new Talon (SHOOTER_WHEELS_CHANNELB));
 	private ShooterWheels shooterWheels = new ShooterWheels(mShooterWheelsA, mShooterWheelsB);
 	
-
+	private double driveScale = 1.0;
 	
 	// METHODS
 	public void robotInit()
@@ -119,8 +120,8 @@ public class Robot extends IterativeRobot
 
 	}
 
-	double __left = 0;
-	double __right = 0;
+	boolean lockA = false;
+	boolean lockB = false;
 	public void teleopPeriodic()
 	{
 		SmartDashboard.putNumber("Pot", pot.getValue());
@@ -132,8 +133,8 @@ public class Robot extends IterativeRobot
 		if (gamepad.isButtonPressed(EJoystickButtons.FOUR) && !gamepad.isButtonPressed(EJoystickButtons.TWO))
 		{
 			System.out.println("Screw is Working");
-			if (pot.getValue() < MAX)
-//			if (pot.getValue() < MAX && !topLimitSwitch.isHit())
+//			if (pot.getValue() < MAX)
+			if (pot.getValue() < MAX && !topLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Up");
 				screwMotor.up();
@@ -145,8 +146,8 @@ public class Robot extends IterativeRobot
 		} else if (gamepad.isButtonPressed(EJoystickButtons.TWO) && !gamepad.isButtonPressed(EJoystickButtons.FOUR))
 		{
 			System.out.println("Screw is Working");
-			if (pot.getValue() > MIN)
-//			if (pot.getValue() > MIN && !bottomLimitSwitch.isHit())
+//			if (pot.getValue() > MIN)
+			if (pot.getValue() > MIN && !bottomLimitSwitch.isHit())
 			{
 				SmartDashboard.putString("Screw State", "Going Down");
 				screwMotor.down();
@@ -160,75 +161,124 @@ public class Robot extends IterativeRobot
 			SmartDashboard.putString("Screw State", "Stopped");
 			screwMotor.stop();
 		}
-
-		/*
+		SmartDashboard.putBoolean("Is Bay Full", isBayFull);
+		SmartDashboard.putBoolean("Is Loader Full", isLoaderFull);
+		
 		// SHOOTER
-		if (gamepad.isButtonPressed(BUTTON_THREE) && loaderLimitSwitch.isHit() && !isBayFull && isLoaderFull)
+		if (gamepad.isButtonPressed(EJoystickButtons.THREE))
 		{
 			loaderWheels.start();
-		} else
+		}
+		else
 		{
 			loaderWheels.stop();
 		}
-
-		if (!loaderLimitSwitch.isHit() && !isBayFull && isLoaderFull)
-		{
-			isLoaderFull = false;
-			isBayFull = true;
-			loaderWheels.stop();
-		}
-
-		if (!isLoaderFull && loaderLimitSwitch.isHit())
-		{
-			loaderWheels.stop();
-			isLoaderFull = true;
-		}
-
-		if (isBayFull && gamepad.isButtonPressed(BUTTON_FOUR))
+		if (gamepad.isButtonPressed(EJoystickButtons.FIVE))
 		{
 			shooterWheels.start();
 		}
-
-		if (isBayFull && gamepad.isButtonPressed(BUTTON_FIVE))
+		else
 		{
-			shooter.setValue(true);
-			isBayFull = false;
 			shooterWheels.stop();
-		} else 
-		{
-			shooter.setValue(false);
 		}
-		*/
+		if (gamepad.isButtonPressed(EJoystickButtons.SIX))
+		{
+			shooter.engage();
+		}
+		else
+		{
+			shooter.disengage();
+		}
+		
+		if (!lockA && !lockB && gamepad.isButtonPressed(EJoystickButtons.ONE))
+		{
+			lifter.engage();
+			lockA = true;
+		}
+		if (lockA && !lockB && !gamepad.isButtonPressed(EJoystickButtons.ONE))
+		{
+			//do 2
+			lockA = false;
+			lockB = true;
+		}
+		if (!lockA && lockB && gamepad.isButtonPressed(EJoystickButtons.ONE))
+		{
+			lifter.disengage();
+			lockA = true;
+		}
+		if (lockA && lockB && !gamepad.isButtonPressed(EJoystickButtons.ONE))
+		{
+			//do 4
+			lockA = false;
+			lockB = false;
+		}
+		
+//		if (gamepad.isButtonPressed(EJoystickButtons.THREE) && loaderLimitSwitch.isHit() && !isBayFull && isLoaderFull)
+//		{
+//			System.out.println("Option 1");
+//			loaderWheels.start();
+//		} else
+//		{
+//			System.out.println("Option 2");
+//
+//			loaderWheels.stop();
+//		}
+//
+//		if (!loaderLimitSwitch.isHit() && !isBayFull && isLoaderFull)
+//		{
+//			System.out.println("Option 3");
+//
+//			isLoaderFull = false;
+//			isBayFull = true;
+//			loaderWheels.stop();
+//		}
+//
+//		if (!isLoaderFull && loaderLimitSwitch.isHit())
+//		{
+//			System.out.println("Option 4");
+//
+//			loaderWheels.stop();
+//			isLoaderFull = true;
+//		}
+//
+//		if (isBayFull && gamepad.isButtonPressed(EJoystickButtons.FIVE))
+//		{
+//			System.out.println("Option 5");
+//
+//			shooterWheels.start();
+//		}
+//
+//		if (isBayFull && gamepad.isButtonPressed(EJoystickButtons.SIX))
+//		{
+//			System.out.println("Option 6");
+//
+//			shooter.engage();
+//			isBayFull = false;
+//			shooterWheels.stop();
+//			Timer.delay(0.1);
+//		} else 
+//		{
+//			System.out.println("Option 7");
+//
+//			shooter.disengage();
+//		}
 
 		// DRIVETRAIN
-		if (rightJoystick.isButtonPressed(BUTTON_ONE))
-		{
-			tankDrive.setSpeed(rightJoystick.getY());
-		} else
-		{
-			tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
-		}
-		
-		
-		if (rightJoystick.isButtonPressed(BUTTON_FIVE))
-		{
-			__right = rightJoystick.getY();
-		} else 
-		{
-			__right = 0;
-		}
-		if (rightJoystick.isButtonPressed(BUTTON_THREE))
-		{
-			__left = rightJoystick.getY();
-		} else 
-		{
-			__left = 0;
-		}
-		
-		tankDrive.setSpeed(__left, -__right);
-		
-		tankDrive.setSpeed(leftJoystick.getY(), rightJoystick.getY());
-		
+//		if (leftJoystick.isButtonPressed(EJoystickButtons.ONE))
+//		{
+//			tankDrive.setSpeed(rightJoystick.getY()*driveScale);
+//		} else
+//		{
+			tankDrive.setSpeed((leftJoystick.getY()*driveScale), (rightJoystick.getY()*driveScale));
+//		}
+//		if (rightJoystick.isButtonPressed(EJoystickButtons.ONE))
+//		{
+//			driveScale = 0.5;
+//		} else
+//		{
+//			driveScale = 1.0;
+//		}
+		Timer.delay(0.05);
 	}
 
 	public void testPeriodic()
